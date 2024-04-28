@@ -2,7 +2,7 @@ package cache
 
 import (
 	"bytes"
-	"io/ioutil"
+	"os"
 	"runtime"
 	"strconv"
 	"sync"
@@ -108,11 +108,11 @@ func TestCacheTimes(t *testing.T) {
 
 func TestNewFrom(t *testing.T) {
 	m := map[string]Item{
-		"a": Item{
+		"a": {
 			Object:     1,
 			Expiration: 0,
 		},
-		"b": Item{
+		"b": {
 			Object:     2,
 			Expiration: 0,
 		},
@@ -1378,7 +1378,7 @@ func TestFileSerialization(t *testing.T) {
 	tc := New(DefaultExpiration, 0)
 	tc.Add("a", "a", DefaultExpiration)
 	tc.Add("b", "b", DefaultExpiration)
-	f, err := ioutil.TempFile("", "go-cache-cache.dat")
+	f, err := os.CreateTemp("", "go-cache-cache.dat")
 	if err != nil {
 		t.Fatal("Couldn't create cache file:", err)
 	}
